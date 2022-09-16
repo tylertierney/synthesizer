@@ -1,0 +1,28 @@
+.dialContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.dial {
+  /* padding: 6px 0 0 0; */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background-color: darkgray;
+  cursor: default;
+  z-index: -1;
+}
+
+.finger {
+  width: 10px;
+  height: 30px;
+  background-color: black;
+  /* border-radius: 50%; */
+  user-select: none;
+  translate: 0 -8px;
+
+}
