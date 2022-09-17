@@ -8,16 +8,18 @@ interface IDial {
   range: number;
   value: number;
   setValue: (val: number) => void;
+  WIDTH: number;
 }
 
-const WIDTH = 80;
+// const WIDTH = 80;
 const DEGREES = 140;
-const CIRCUMFERENCE = Math.PI * WIDTH;
 
-const Dial = ({ name, range, value, setValue }: IDial) => {
+const Dial = ({ name, range, value, setValue, WIDTH }: IDial) => {
   const [isClicked, setIsClicked] = useState(false);
   const [dragStartY, setDragStartY] = useState(0);
   const holdingAltKey = useAltClick();
+
+  const CIRCUMFERENCE = Math.PI * WIDTH;
 
   useEffect(() => {
     const mouseup = (): void => {
@@ -102,7 +104,7 @@ const Dial = ({ name, range, value, setValue }: IDial) => {
             height: WIDTH + "px",
           }}
         >
-          <div className={styles.finger}></div>
+          <div className={styles.finger} style={{ height: "60%" }}></div>
         </div>
         <svg
           width={WIDTH}
@@ -119,15 +121,15 @@ const Dial = ({ name, range, value, setValue }: IDial) => {
         >
           <circle
             strokeWidth={10}
-            stroke="#1bd5ff"
+            stroke="var(--blue)"
             strokeDasharray={CIRCUMFERENCE}
             strokeDashoffset={"-" + getDashOffset(value, range)}
-            transform="rotate(-90 40 40)"
+            transform={`rotate(-90 ${WIDTH / 2} ${WIDTH / 2})`}
             fill="none"
             strokeLinecap="butt"
-            cx="40"
-            cy="40"
-            r="40"
+            cx={WIDTH / 2}
+            cy={WIDTH / 2}
+            r={WIDTH / 2}
           ></circle>
         </svg>
       </div>

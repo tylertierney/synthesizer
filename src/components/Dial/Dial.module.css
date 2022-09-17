@@ -24,8 +24,7 @@
 
 .finger {
   width: 3px;
-  height: 50px;
-  background-color: #1bd5ff;
+  background-color: var(--blue);
   user-select: none;
   translate: 0 -6px;
 }
@@ -49,7 +48,7 @@
 
 .dialAndName:hover .value {
   display: initial;
-  color: #1bd5ff;
+  color: var(--blue);
 }
 
 .isClicked .name {
@@ -58,5 +57,5 @@
 
 .isClicked .value {
   display: initial;
-  color: #1bd5ff;
+  color: var(--blue);
 }

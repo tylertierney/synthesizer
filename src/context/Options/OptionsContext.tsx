@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { SynthOptions } from "tone";
 import { RecursivePartial } from "tone/build/esm/core/util/Interface";
 import noteMap from "../../constants/noteMap";
@@ -6,7 +12,9 @@ import useInstrument from "../Instrument/InstrumentContext";
 import useMidi from "../Midi/MidiContext";
 
 const initialOptions: RecursivePartial<SynthOptions> = {
-  envelope: { release: 3, attack: 0.1 },
+  envelope: {
+    release: 3,
+  },
   detune: 0,
   volume: -10,
   oscillator: {
@@ -16,7 +24,10 @@ const initialOptions: RecursivePartial<SynthOptions> = {
 
 interface IContext {
   options: RecursivePartial<SynthOptions>;
-  setDetune: (val: number) => void;
+  fineTuning: number;
+  coarseTuning: number;
+  setFineTuning: (val: number) => void;
+  setCoarseTuning: (val: number) => void;
   setVolume: (val: number) => void;
   setOscillator: (type: OscillatorType) => void;
 }
@@ -41,13 +52,16 @@ export const OptionsProvider = ({
         return { ...options, volume: action.payload };
       case "oscillator":
         return { ...options, oscillator: { type: action.payload } };
-      // return {...options, oscillator: {...oscillator, type: action.payload}}
       default:
         return options;
     }
   };
 
   const [options, dispatch] = useReducer(reducer, initialOptions);
+  const [fineTuning, setFineTuning] = useState(options.detune ?? 0);
+  const [coarseTuning, setCoarseTuning] = useState(
+    options.detune ? options.detune % 100 : 0
+  );
 
   useEffect(() => {
     if (!synth) return;
@@ -55,8 +69,8 @@ export const OptionsProvider = ({
     synth.toDestination();
   }, [options, synth]);
 
-  const setDetune = (val: number) => {
-    dispatch({ type: "detune", payload: val });
+  const setDetune = (fine: number, coarse: number) => {
+    dispatch({ type: "detune", payload: fine + coarse * 100 });
   };
 
   const setVolume = (val: number) => {
@@ -67,9 +81,21 @@ export const OptionsProvider = ({
     dispatch({ type: "oscillator", payload: type });
   };
 
+  useEffect(() => {
+    setDetune(fineTuning, coarseTuning);
+  }, [fineTuning, coarseTuning]);
+
   return (
     <OptionsContext.Provider
-      value={{ options, setDetune, setVolume, setOscillator }}
+      value={{
+        options,
+        fineTuning,
+        coarseTuning,
+        setFineTuning,
+        setCoarseTuning,
+        setVolume,
+        setOscillator,
+      }}
     >
       {children}
     </OptionsContext.Provider>

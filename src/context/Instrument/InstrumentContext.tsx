@@ -12,18 +12,13 @@ import noteMap from "../../constants/noteMap";
 import { Monophonic } from "tone/build/esm/instrument/Monophonic";
 import { DuoSynth, PolySynthOptions, SynthOptions } from "tone";
 
-// const s = new Tone.PolySynth(Tone.Synth);
-
-const initialSynth = new Tone.PolySynth(Tone.FMSynth);
-// initialSynth.volume.value = -12;
+const initialSynth = new Tone.PolySynth(Tone.Synth);
 
 interface IContext {
   synth: Tone.PolySynth<Tone.FMSynth | Tone.AMSynth | Tone.Synth>;
-  // synth: Tone.PolySynth;
   setSynth: Dispatch<
     SetStateAction<Tone.PolySynth<Tone.FMSynth | Tone.AMSynth | Tone.Synth>>
   >;
-  // setSynth: Dispatch<SetStateAction<Tone.PolySynth>>
 }
 
 const InstrumentContext = createContext<IContext>({
