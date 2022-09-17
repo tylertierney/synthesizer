@@ -9,12 +9,16 @@ const initialOptions: RecursivePartial<SynthOptions> = {
   envelope: { release: 3, attack: 0.1 },
   detune: 0,
   volume: -10,
+  oscillator: {
+    type: "sine",
+  },
 };
 
 interface IContext {
   options: RecursivePartial<SynthOptions>;
   setDetune: (val: number) => void;
   setVolume: (val: number) => void;
+  setOscillator: (type: OscillatorType) => void;
 }
 
 const OptionsContext = createContext<IContext>({} as IContext);
@@ -35,6 +39,9 @@ export const OptionsProvider = ({
         return { ...options, detune: action.payload };
       case "volume":
         return { ...options, volume: action.payload };
+      case "oscillator":
+        return { ...options, oscillator: { type: action.payload } };
+      // return {...options, oscillator: {...oscillator, type: action.payload}}
       default:
         return options;
     }
@@ -56,8 +63,14 @@ export const OptionsProvider = ({
     dispatch({ type: "volume", payload: val });
   };
 
+  const setOscillator = (type: OscillatorType) => {
+    dispatch({ type: "oscillator", payload: type });
+  };
+
   return (
-    <OptionsContext.Provider value={{ options, setDetune, setVolume }}>
+    <OptionsContext.Provider
+      value={{ options, setDetune, setVolume, setOscillator }}
+    >
       {children}
     </OptionsContext.Provider>
   );

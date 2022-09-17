@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import CSS from "csstype";
 import styles from "./Dial.module.css";
+import useAltClick from "../../hooks/useAltKey";
 
 interface IDial {
   name: string;
@@ -16,6 +17,7 @@ const CIRCUMFERENCE = Math.PI * WIDTH;
 const Dial = ({ name, range, value, setValue }: IDial) => {
   const [isClicked, setIsClicked] = useState(false);
   const [dragStartY, setDragStartY] = useState(0);
+  const holdingAltKey = useAltClick();
 
   useEffect(() => {
     const mouseup = (): void => {
@@ -76,6 +78,10 @@ const Dial = ({ name, range, value, setValue }: IDial) => {
     setValue(0);
   };
 
+  const onClick = (): void => {
+    if (holdingAltKey) setValue(0);
+  };
+
   return (
     <div className={`${styles.dialAndName} ${isClicked && styles.isClicked}`}>
       <div className={styles.nameContainer}>
@@ -86,6 +92,7 @@ const Dial = ({ name, range, value, setValue }: IDial) => {
         className={styles.dialContainer}
         onMouseDown={(e) => mousedown(e)}
         onDoubleClick={() => doubleClick()}
+        onClick={() => onClick()}
       >
         <div
           className={styles.dial}

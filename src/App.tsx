@@ -3,26 +3,31 @@ import useSynth from "./context/Options/OptionsContext";
 import Dial from "./components/Dial/Dial";
 import useInstrument from "./context/Instrument/InstrumentContext";
 import * as Tone from "tone";
-import useAltClick from "./hooks/useAltClick";
-import { useRef } from "react";
 
 function App() {
-  const test = useRef<HTMLButtonElement>(null);
-  useAltClick(test);
-  const { options, setDetune, setVolume } = useSynth();
+  const { options, setDetune, setVolume, setOscillator } = useSynth();
   const { setSynth } = useInstrument();
+
+  const osc: OscillatorType[] = ["sine", "sawtooth"];
 
   return (
     <>
-      <button
-        ref={test}
-        onClick={() => setSynth(new Tone.PolySynth(Tone.FMSynth))}
-      >
+      <button onClick={() => setSynth(new Tone.PolySynth(Tone.FMSynth))}>
         FM
       </button>
       <button onClick={() => setSynth(new Tone.PolySynth(Tone.AMSynth))}>
         AM
       </button>
+      <button onClick={() => setSynth(new Tone.PolySynth(Tone.Synth))}>
+        regular
+      </button>
+      <select onChange={(e) => setOscillator(e.target.value as OscillatorType)}>
+        {osc.map((type: OscillatorType, i) => (
+          <option key={i} value={type}>
+            {type}
+          </option>
+        ))}
+      </select>
       <div style={{ display: "flex", justifyContent: "center", gap: "2rem" }}>
         <Dial
           name={"Detune"}

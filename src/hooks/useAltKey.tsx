@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const useAltClick = (ref: React.Ref<HTMLElement>) => {
+const useAltClick = () => {
   const [holdingAltKey, setHoldingAltKey] = useState(false);
 
   useEffect(() => {
@@ -24,7 +24,8 @@ const useAltClick = (ref: React.Ref<HTMLElement>) => {
       window.removeEventListener("keyup", releaseAlt);
     };
   }, []);
-  console.log(holdingAltKey);
+
+  return holdingAltKey;
 };
 
 export default useAltClick;
