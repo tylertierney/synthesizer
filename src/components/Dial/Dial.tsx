@@ -1,18 +1,19 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CSS from "csstype";
 import styles from "./Dial.module.css";
 
 interface IDial {
+  name: string;
   range: number;
   value: number;
-  setValue: Dispatch<SetStateAction<number>>;
+  setValue: (val: number) => void;
 }
 
 const WIDTH = 80;
 const DEGREES = 140;
 const CIRCUMFERENCE = Math.PI * WIDTH;
 
-const Dial = ({ range, value, setValue }: IDial) => {
+const Dial = ({ name, range, value, setValue }: IDial) => {
   const [isClicked, setIsClicked] = useState(false);
   const [dragStartY, setDragStartY] = useState(0);
 
@@ -25,13 +26,19 @@ const Dial = ({ range, value, setValue }: IDial) => {
     const mousemove = (e: MouseEvent): void => {
       if (!isClicked) return;
 
-      setValue((prev) => {
-        const minimized = (dragStartY - e.pageY) * (range * 0.01);
-        if (prev + minimized > range) return range;
-        if (prev + minimized < -1 * range) return -1 * range;
-        return prev + minimized;
-      });
+      const minimized = (dragStartY - e.pageY) * (range * 0.01);
+      if (value + minimized > range) {
+        setValue(range);
+        setDragStartY(e.pageY);
+        return;
+      }
 
+      if (value + minimized < -1 * range) {
+        setValue(-1 * range);
+        setDragStartY(e.pageY);
+        return;
+      }
+      setValue(value + minimized);
       setDragStartY(e.pageY);
     };
 
@@ -59,7 +66,7 @@ const Dial = ({ range, value, setValue }: IDial) => {
     return proportion + "deg";
   };
 
-  const getDashOffset = (value: number, range: number) => {
+  const getDashOffset = (value: number, range: number): number => {
     const proportion =
       (value / range) * ((DEGREES / 180) * (CIRCUMFERENCE / 2));
     return proportion + CIRCUMFERENCE;
@@ -70,7 +77,11 @@ const Dial = ({ range, value, setValue }: IDial) => {
   };
 
   return (
-    <>
+    <div className={`${styles.dialAndName} ${isClicked && styles.isClicked}`}>
+      <div className={styles.nameContainer}>
+        <span className={styles.name}>{name}</span>
+        <span className={styles.value}>{~~value}</span>
+      </div>
       <div
         className={styles.dialContainer}
         onMouseDown={(e) => mousedown(e)}
@@ -99,41 +110,21 @@ const Dial = ({ range, value, setValue }: IDial) => {
             zIndex: -2,
           }}
         >
-          {/* <circle
-          stroke-width="20"
-          stroke="#CEE0F5"
-          fill="none"
-          stroke-linecap="round"
-          cx="40"
-          cy="40"
-          r="40"
-        ></circle> */}
           <circle
             strokeWidth={10}
-            stroke="#3D99FF"
+            stroke="#1bd5ff"
             strokeDasharray={CIRCUMFERENCE}
             strokeDashoffset={"-" + getDashOffset(value, range)}
-            // strokeDashoffset={"-" + offset}
             transform="rotate(-90 40 40)"
             fill="none"
-            strokeLinecap="square"
+            strokeLinecap="butt"
             cx="40"
             cy="40"
             r="40"
           ></circle>
-          {/* <text
-          x="40"
-          y="40"
-          text-anchor="middle"
-          dy="0.3em"
-          font-weight="bold"
-          id="label_2"
-        >
-          Gain
-        </text> */}
         </svg>
       </div>
-    </>
+    </div>
   );
 };
 

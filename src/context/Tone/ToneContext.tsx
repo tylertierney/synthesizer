@@ -4,17 +4,15 @@ import * as Tone from "tone";
 const ToneContext = createContext(null);
 
 export const ToneProvider = ({ children }: { children: React.ReactNode }) => {
-  const [inputs, setInputs] = useState([]);
+  useEffect(() => {
+    const activateTone = async () => {
+      await Tone.start();
+    };
 
-  // useEffect(() => {
-  //   const activateTone = async () => {
-  //     await Tone.start();
-  //   };
+    window.addEventListener("click", activateTone);
 
-  //   window.addEventListener("click", activateTone);
-
-  //   return () => window.removeEventListener("click", activateTone);
-  // }, []);
+    return () => window.removeEventListener("click", activateTone);
+  }, []);
 
   return <ToneContext.Provider value={null}>{children}</ToneContext.Provider>;
 };

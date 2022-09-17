@@ -3,19 +3,25 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { SynthProvider } from "./context/Synth/SynthContext";
+import { OptionsProvider } from "./context/Options/OptionsContext";
 import { MidiProvider } from "./context/Midi/MidiContext";
+import { ToneProvider } from "./context/Tone/ToneContext";
+import { InstrumentProvider } from "./context/Instrument/InstrumentContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   // <React.StrictMode>
-  // <MidiProvider>
-  <SynthProvider>
-    <App />
-  </SynthProvider>
-  // </MidiProvider>
+  <MidiProvider>
+    <ToneProvider>
+      <InstrumentProvider>
+        <OptionsProvider>
+          <App />
+        </OptionsProvider>
+      </InstrumentProvider>
+    </ToneProvider>
+  </MidiProvider>
   // </React.StrictMode>
 );
 
