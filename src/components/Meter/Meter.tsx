@@ -8,6 +8,7 @@ import useSynth from "../../context/Options/OptionsContext";
 import useAltClick from "../../hooks/useAltKey";
 
 const meter = new Tone.Meter();
+const WIDTH = 200;
 
 const Meter = () => {
   const [peak, setPeak] = useState(0);
@@ -26,7 +27,7 @@ const Meter = () => {
   let maxVol = 0;
 
   const setup = (p5: p5Types, canvasParentRef: Element) => {
-    p5.createCanvas(400, 30).parent(canvasParentRef);
+    p5.createCanvas(WIDTH, 30).parent(canvasParentRef);
   };
 
   const draw = (p5: p5Types) => {
@@ -77,7 +78,7 @@ const Meter = () => {
       <div
         className={styles.meterContainer}
         onClick={(e) => onClick(e)}
-        // onClickCapture={(e) => onClick(e)}
+        style={{ width: WIDTH + "px" }}
       >
         <input
           className={styles.input}
@@ -86,7 +87,6 @@ const Meter = () => {
           min={-50}
           value={options.volume}
           onChange={(e) => setVolume(parseInt(e.target.value, 10))}
-          // onClickCapture={(e) => e.stopPropagation()}
           onClick={(e) => {
             console.log("input clicked");
             e.preventDefault();
