@@ -7,6 +7,7 @@ import * as Tone from "tone";
 import Waveform from "./components/Waveform/Waveform";
 import { useEffect } from "react";
 import Meter from "./components/Meter/Meter";
+import Envelope from "./components/Envelope/Envelope";
 
 const meter = new Tone.Meter();
 
@@ -76,6 +77,7 @@ function App() {
           min={-50}
           onChange={(e) => setVolume(parseInt(e.target.value, 10))}
         /> */}
+        <Envelope />
       </div>
     </>
   );

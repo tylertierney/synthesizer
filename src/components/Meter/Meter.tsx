@@ -81,7 +81,7 @@ const Meter = () => {
         style={{ width: WIDTH + "px" }}
       >
         <input
-          className={styles.input}
+          className={styles.meterInputHTML}
           type="range"
           max={4}
           min={-50}
