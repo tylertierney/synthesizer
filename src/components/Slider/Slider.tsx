@@ -80,6 +80,7 @@ const Slider = ({
           max={10}
           min={0}
           onChange={(e) => handleInputChange(e)}
+          disabled={sync}
         />
       </div>
       {getSliderType(value)}

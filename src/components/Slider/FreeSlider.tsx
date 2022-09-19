@@ -87,6 +87,13 @@ const FreeSlider = ({
       onMouseDown={(e) => mousedown(e)}
     >
       <div
+        className={styles.beatsContainer}
+        style={{ justifyContent: "space-between" }}
+      >
+        <span className={styles.beat}>{max}s</span>
+        <span className={styles.beat}>0s</span>
+      </div>
+      <div
         className={styles.track}
         style={{ height: trackHeight + "px", width: trackWidth + "px" }}
       ></div>

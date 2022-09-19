@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import Meter from "./components/Meter/Meter";
 import Envelope from "./components/Envelope/Envelope";
 import Display from "./components/Display/Display";
+import Piano from "./components/Piano/Piano";
 
 const meter = new Tone.Meter();
 
@@ -83,6 +84,7 @@ function App() {
         /> */}
         <Envelope />
       </div>
+      <Piano />
     </>
   );
 }

@@ -1,0 +1,100 @@
+.pianoContainer {
+  display: flex;
+  position: relative;
+  height: 150px;
+}
+
+.keyContainer {
+  position: relative;
+}
+
+.natural,
+.sharp {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.natural {
+  width: 48px;
+  height: 100%;
+  background-color: white;
+  flex-grow: 0;
+  flex-shrink: 0;
+  border: 1px solid;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 10px;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.sharp {
+  width: 32px;
+  height: 90px;
+  background-color: black;
+  flex-grow: 0;
+  flex-shrink: 0;
+  position: absolute;
+  left: -16px;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 10px;
+  color: white;
+  font-size: 0.8rem;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.sharp .noteName {
+  font-size: 0.7rem;
+}
+
+.natural .noteName {
+  font-size: 0.8rem;
+}
+
+.noteName {
+  display: none;
+  user-select: none;
+  /* font-size: 0.8rem; */
+}
+
+.keyName {
+  user-select: none;
+}
+
+.natural:hover .keyName,
+.sharp:hover .keyName {
+  display: none;
+}
+
+.natural:hover .noteName,
+.sharp:hover .noteName {
+  display: inline;
+}
+
+.arrowBtn {
+  height: 100%;
+  background: transparent;
+  border: none;
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+.natural.depressed {
+  box-shadow: inset 0px 0px 10px 1px rgb(0, 0, 0, 0.5);
+}
+
+.sharp.depressed {
+  box-shadow: inset 0px 0px 10px 1px rgb(255, 255, 255, 0.5);
+}
