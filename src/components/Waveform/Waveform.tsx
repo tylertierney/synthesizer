@@ -32,10 +32,10 @@ const Waveform = ({ width, height }: IProps) => {
 
     for (let i = start; i < end; i++) {
       let x1 = p5.map(i - 1, start, end, 0, p5.width);
-      let y1 = p5.map(buffer[i - 1] * 2.5, -1, 1, 0, p5.height);
+      let y1 = p5.map(buffer[i - 1], -1, 1, 0, p5.height);
 
       let x2 = p5.map(i, start, end, 0, p5.width);
-      let y2 = p5.map(buffer[i] * 2.5, -1, 1, 0, p5.height);
+      let y2 = p5.map(buffer[i], -1, 1, 0, p5.height);
 
       p5.line(x1, y1, x2, y2);
     }

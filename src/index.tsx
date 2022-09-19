@@ -7,6 +7,7 @@ import { OptionsProvider } from "./context/Options/OptionsContext";
 import { MidiProvider } from "./context/Midi/MidiContext";
 import { ToneProvider } from "./context/Tone/ToneContext";
 import { InstrumentProvider } from "./context/Instrument/InstrumentContext";
+import { TransportProvider } from "./context/Transport/TransportContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -15,11 +16,13 @@ root.render(
   // <React.StrictMode>
   <MidiProvider>
     <ToneProvider>
-      <InstrumentProvider>
-        <OptionsProvider>
-          <App />
-        </OptionsProvider>
-      </InstrumentProvider>
+      <TransportProvider>
+        <InstrumentProvider>
+          <OptionsProvider>
+            <App />
+          </OptionsProvider>
+        </InstrumentProvider>
+      </TransportProvider>
     </ToneProvider>
   </MidiProvider>
   // </React.StrictMode>

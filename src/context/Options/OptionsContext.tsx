@@ -6,24 +6,9 @@ import React, {
   useState,
 } from "react";
 import { SynthOptions } from "tone";
+import { Time } from "tone/build/esm/core/type/Units";
 import { RecursivePartial } from "tone/build/esm/core/util/Interface";
-import noteMap from "../../constants/noteMap";
 import useInstrument from "../Instrument/InstrumentContext";
-import useMidi from "../Midi/MidiContext";
-
-const initialOptions: RecursivePartial<SynthOptions> = {
-  envelope: {
-    attack: 0,
-    // decay: 0,
-    // sustain: 0,
-    release: 0,
-  },
-  detune: 0,
-  volume: -10,
-  oscillator: {
-    type: "sine",
-  },
-};
 
 interface IContext {
   options: RecursivePartial<SynthOptions>;
@@ -93,11 +78,17 @@ export const OptionsProvider = ({
     }
   };
 
-  const [options, dispatch] = useReducer(reducer, initialOptions);
+  const [options, dispatch] = useReducer(reducer, synth.get());
   const [fineTuning, setFineTuning] = useState(options.detune ?? 0);
   const [coarseTuning, setCoarseTuning] = useState(
     options.detune ? options.detune % 100 : 0
   );
+
+  useEffect(() => {
+    setVolume(-10);
+    dispatch({ type: "release", payload: "4n" });
+    setAttack(0.05);
+  }, []);
 
   useEffect(() => {
     if (!synth) return;
@@ -117,6 +108,9 @@ export const OptionsProvider = ({
     dispatch({ type: "oscillator", payload: type });
   };
 
+  // const setAttack = (val: number) => {
+  //   dispatch({ type: "attack", payload: val });
+  // };
   const setAttack = (val: number) => {
     dispatch({ type: "attack", payload: val });
   };

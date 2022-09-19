@@ -1,44 +1,90 @@
-import { Dispatch, SetStateAction } from "react";
-import * as Tone from "tone";
-import { TimeObject } from "tone/build/esm/core/type/Units";
+import React, { useEffect, useRef, useState } from "react";
+import { Time } from "tone/build/esm/core/type/Units";
+import useOptions from "../../context/Options/OptionsContext";
 import useAltClick from "../../hooks/useAltKey";
+import FreeSlider from "./FreeSlider";
 import styles from "./Slider.module.css";
+import SyncSlider from "./SyncSlider";
+import * as Tone from "tone";
+import { TimeBaseClass } from "tone/build/esm/core/type/TimeBase";
+
+const trackWidth = 14;
+const trackHeight = 180;
+const thumbHeight = 18;
 
 interface IProps {
   value: number;
   setValue: (val: number) => void;
   label: string;
+  max: number;
+  defaultValue: number;
 }
 
-const Slider = ({ value, setValue, label }: IProps) => {
-  const holdingAltKey = useAltClick();
+const Slider = ({ value, setValue, label, max, defaultValue }: IProps) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const [sync, setSync] = useState(false);
+  const { options } = useOptions();
 
-  const onDoubleClick = (): void => {
-    setValue(0);
+  const inputValue = Number.parseFloat(String(value));
+
+  const handleInputChange = (e: React.ChangeEvent) => {
+    const val = parseFloat((e.target as HTMLInputElement).value);
+    if (isNaN(val)) return;
+    if (val > max || val < 0) return;
+    setValue(val);
   };
 
-  const onClick = (): void => {
-    if (holdingAltKey) {
-      console.log(value);
-      setValue(0);
+  const getSliderType = (value: number): React.ReactNode => {
+    if (!sync) {
+      return (
+        <FreeSlider
+          value={value}
+          setValue={setValue}
+          defaultValue={defaultValue}
+          max={10}
+          isDragging={isDragging}
+          setIsDragging={setIsDragging}
+        />
+      );
+    } else {
+      return (
+        <SyncSlider
+          value={value}
+          setValue={setValue}
+          defaultValue={defaultValue}
+          max={10}
+          isDragging={isDragging}
+          setIsDragging={setIsDragging}
+        />
+      );
     }
   };
 
   return (
-    <div className={styles.sliderAndName} onClick={() => onClick()}>
-      <div className={styles.sliderContainer} onClick={() => onClick}>
+    <div
+      className={`${styles.sliderAndName} ${isDragging && styles.isDragging}`}
+    >
+      <div className={styles.valueContainer}>
         <input
-          className={styles.sliderInputHTML}
-          type="range"
-          value={value}
+          type="number"
+          className={styles.value}
+          value={inputValue}
+          max={10}
           min={0}
-          max={100}
-          onChange={(e) => {
-            setValue(parseInt(e.target.value, 10) / 100);
-          }}
+          onChange={(e) => handleInputChange(e)}
         />
       </div>
-      <span>{label}</span>
+      {getSliderType(value)}
+
+      <button
+        className={`${styles.syncBtn} ${sync && styles.active}`}
+        onClick={() => {
+          setSync((prev) => !prev);
+        }}
+      >
+        Sync
+      </button>
+      <label className={styles.label}>{label}</label>
     </div>
   );
 };

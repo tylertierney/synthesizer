@@ -94,7 +94,7 @@ const Meter = () => {
         />
         <Sketch setup={setup} draw={draw} />
       </div>
-      <p>{peak.toFixed(2)}</p>
+      {/* <p>{peak.toFixed(2)}</p> */}
     </>
   );
 };

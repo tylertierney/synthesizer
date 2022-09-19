@@ -11,38 +11,13 @@ const Envelope = () => {
       <Slider
         value={
           typeof options.envelope?.attack === "number"
-            ? options.envelope?.attack * 100
+            ? options.envelope?.attack
             : 0
         }
         setValue={setAttack}
         label="A"
-      />
-      <Slider
-        value={
-          typeof options.envelope?.decay === "number"
-            ? options.envelope?.decay * 100
-            : 0
-        }
-        setValue={setDecay}
-        label="D"
-      />
-      <Slider
-        value={
-          typeof options.envelope?.sustain === "number"
-            ? options.envelope?.sustain * 100
-            : 0
-        }
-        setValue={setSustain}
-        label="S"
-      />
-      <Slider
-        value={
-          typeof options.envelope?.release === "number"
-            ? options.envelope?.release * 100
-            : 0
-        }
-        setValue={setRelease}
-        label="R"
+        max={10}
+        defaultValue={0.05}
       />
     </div>
   );

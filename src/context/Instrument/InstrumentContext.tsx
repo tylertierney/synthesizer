@@ -9,8 +9,6 @@ import React, {
 import * as Tone from "tone";
 import useMidi from "../Midi/MidiContext";
 import noteMap from "../../constants/noteMap";
-import { Monophonic } from "tone/build/esm/instrument/Monophonic";
-import { DuoSynth, PolySynthOptions, SynthOptions } from "tone";
 
 const initialSynth = new Tone.PolySynth(Tone.Synth);
 

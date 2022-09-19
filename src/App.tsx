@@ -8,6 +8,7 @@ import Waveform from "./components/Waveform/Waveform";
 import { useEffect } from "react";
 import Meter from "./components/Meter/Meter";
 import Envelope from "./components/Envelope/Envelope";
+import Display from "./components/Display/Display";
 
 const meter = new Tone.Meter();
 
@@ -30,7 +31,10 @@ function App() {
 
   return (
     <>
-      <Meter />
+      <div className="top">
+        <Display />
+        <Meter />
+      </div>
       <Waveform width={500} height={50} />
       <button
         onClick={() => {

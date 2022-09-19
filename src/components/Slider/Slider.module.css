@@ -6,63 +6,137 @@
   width: 60px;
 }
 
-span {
-  text-align: center;
-  color: white;
+.sliderAndName:hover .valueContainer {
+  opacity: 0.5;
+}
+
+.sliderAndName:hover .label {
+  opacity: 1;
+}
+
+.valueContainer {
+  display: flex;
+  justify-content: center;
+  color: var(--blue);
+  opacity: 0;
 }
 
 .sliderContainer {
   position: relative;
-  width: 180px;
-  height: 14px;
-  transform: rotateZ(270deg) translate(50%, -60px);
-  border: solid #413d4b 2px;
-  border-radius: 40px;
-  background-color: rgb(37, 34, 34);
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
 }
 
-input[type="range"].sliderInputHTML {
-  width: 180px;
-  -webkit-appearance: none;
-  /* position: absolute; */
-  pointer-events: none;
-  height: 8px;
-  background: transparent;
+.track {
+  border: solid #413d4b 2px;
+  border-radius: 40px;
+  background-color: rgb(37, 34, 34);
 }
 
-input[type="range"].sliderInputHTML::-webkit-slider-thumb {
-  -webkit-appearance: none;
-}
-
-input[type="range"].sliderInputHTML:focus {
-  outline: none;
-}
-
-input[type="range"].sliderInputHTML::-ms-track {
-  border: solid #555064 2px;
-  /* width: 200px; */
-  cursor: pointer;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-
-input[type="range"].sliderInputHTML::-webkit-slider-thumb {
-  -webkit-appearance: none;
+.thumb {
   border: 1px solid #000000;
-  height: 26px;
   background: rgb(96, 96, 96);
   background: radial-gradient(
     circle,
     rgba(96, 96, 96, 1) 80%,
     rgba(40, 40, 40, 1) 100%
   );
-  width: 26px;
-  border-radius: 50%;
+  border-radius: 3px;
   cursor: pointer;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  pointer-events: all;
+  position: absolute;
+  /* bottom: 0%; */
+}
+
+.syncBtn {
+  background: transparent;
+  border: 1px solid white;
+  padding: 0.4rem;
+  border-radius: 4px;
+  color: white;
+  opacity: 0.5;
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 0.5rem;
+  transition: 0.2s ease-in-out;
+}
+
+.syncBtn:hover {
+  opacity: 0.7;
+}
+
+.syncBtn.active {
+  color: var(--blue);
+  border-color: var(--blue);
+  opacity: 0.7;
+}
+
+.label,
+.value {
+  text-align: center;
+  color: white;
+  opacity: inherit;
+  user-select: none;
+  transition: 0.2s ease-in-out;
+}
+
+.label {
+  opacity: 0.5;
+}
+
+.value {
+  color: var(--blue);
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  position: relative;
+  user-select: none;
+}
+
+.value:focus {
+  flex-grow: 1;
+}
+
+.valueContainer:focus-within::after {
+  display: none;
+}
+
+.valueContainer::after {
+  content: "s";
+  font-size: 0.9rem;
+  margin-top: 1px;
+  top: 0;
+  right: 0;
+  color: var(--blue);
+  opacity: inherit;
+  transition: 0.2s ease-in-out;
+}
+
+.isDragging .valueContainer {
+  opacity: 0.5;
+}
+
+.beatsContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  height: 100%;
+  left: -0.3rem;
+  color: white;
+  font-size: 0.6rem;
+  user-select: none;
+}
+
+.beat {
+  opacity: 0.4;
+}
+
+.highlightedBeat {
+  opacity: 0.7;
+  color: var(--blue);
 }
