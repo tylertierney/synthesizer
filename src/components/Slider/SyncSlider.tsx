@@ -76,13 +76,21 @@ const SyncSlider = ({
     };
   }, [isDragging, dragStartY]);
 
+  useEffect(() => {
+    setDragValue(Math.min(~~dragValue * (beats.length / 9), 10));
+    const noteName = beats[selectedBeatIndex].value;
+    setValue(Tone.Time(noteName).toSeconds());
+  }, []);
+
   const onDoubleClick = (): void => {
     setValue(defaultValue);
+    setDragValue(defaultValue);
   };
 
   const onClick = (): void => {
     if (holdingAltKey) {
       setValue(defaultValue);
+      setDragValue(defaultValue);
     }
   };
 
@@ -102,18 +110,6 @@ const SyncSlider = ({
     }
     i--;
   }
-
-  // const getSelectedBeat = (dragValue: number, index: number) => {
-  //   for (const { display } of beats) {
-  //     if (
-  //       dragValue < (beats.length - index) * (beats.length / 9) &&
-  //       dragValue >= (beats.length - index - 1) * (beats.length / 9)
-  //     ) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // };
 
   return (
     <div
@@ -148,9 +144,6 @@ const SyncSlider = ({
           bottom: dragValue * 9 + "%",
         }}
       ></div>
-      <h4 style={{ position: "fixed", bottom: "10px", color: "white" }}>
-        {Tone.Time(value).toNotation()}
-      </h4>
     </div>
   );
 };

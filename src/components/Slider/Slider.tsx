@@ -18,9 +18,17 @@ interface IProps {
   label: string;
   max: number;
   defaultValue: number;
+  allowSync: boolean;
 }
 
-const Slider = ({ value, setValue, label, max, defaultValue }: IProps) => {
+const Slider = ({
+  value,
+  setValue,
+  label,
+  max,
+  defaultValue,
+  allowSync,
+}: IProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [sync, setSync] = useState(false);
   const { options } = useOptions();
@@ -35,7 +43,7 @@ const Slider = ({ value, setValue, label, max, defaultValue }: IProps) => {
   };
 
   const getSliderType = (value: number): React.ReactNode => {
-    if (!sync) {
+    if (!sync || !allowSync) {
       return (
         <FreeSlider
           value={value}
@@ -81,6 +89,7 @@ const Slider = ({ value, setValue, label, max, defaultValue }: IProps) => {
         onClick={() => {
           setSync((prev) => !prev);
         }}
+        disabled={!allowSync}
       >
         Sync
       </button>

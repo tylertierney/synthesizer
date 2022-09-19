@@ -108,9 +108,6 @@ export const OptionsProvider = ({
     dispatch({ type: "oscillator", payload: type });
   };
 
-  // const setAttack = (val: number) => {
-  //   dispatch({ type: "attack", payload: val });
-  // };
   const setAttack = (val: number) => {
     dispatch({ type: "attack", payload: val });
   };
